@@ -31,6 +31,7 @@ def dummy_task(data, poll_interval=5, max_attempts=5):
     task_id = task.json()['task_id']
     predict_result_uri = base_uri + '/churn/result/' + task_id
     attempts = 0
+    result = None
     while attempts < max_attempts:
         attempts += 1
         result_response = requests.get(predict_result_uri)
