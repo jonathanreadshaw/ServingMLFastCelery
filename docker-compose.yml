@@ -18,6 +18,7 @@ services:
     environment:
       - BROKER_URI=redis://redis
       - BACKEND_URI=redis://redis
+      - MODEL_PATH=./model.pkl
     depends_on:
       - api
       - redis
