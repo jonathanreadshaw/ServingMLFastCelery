@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+    environment:
+      - BROKER_URI=redis://redis
+      - BACKEND_URI=redis://redis
+    depends_on:
+      - redis
+
+  worker:
+    build: .
+    command: celery -A celery_task_app.worker worker --uid=nobody --gid=nogroup --hostname=worker@%h --loglevel=INFO
+    environment:
+      - BROKER_URI=redis://redis
+      - BACKEND_URI=redis://redis
+    depends_on:
+      - api
+      - redis
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - 6379:6379

@@ -1,29 +1,11 @@
 # ServingMLFastCelery
-Working example for serving a ML model using FastAPI and Celery.
+Working example for serving a ML model using FastAPI and Celery, from [this article](https://towardsdatascience.com/deploying-ml-models-in-production-with-fastapi-and-celery-7063e539a5db). This for includes a docker-compose taken from [here](https://github.com/RTae/yolor_trt) and modified to use only Redis and drops RabbitMQ used in the original example
 
-## Usage
+## Docker
+Run `docker-compose build` then `docker-compose up` then navigate to [http://localhost:8000/docs](http://localhost:8000/docs)
 
-**Install requirements:**
-```bash
-pip install -r requirements.txt
+Build the app seperately:
 ```
-
-**Set environment variables:**
-* MODEL_PATH: Path to pickled machine learning model
-* BROKER_URI: Message broker to be used by Celery e.g. RabbitMQ
-* BACKEND_URI: Celery backend e.g. Redis
-```bash
-export MODEL_PATH=...
-export BROKER_URI=...
-export BACKEND_URI=...
+docker build -t ml-app .
 ```
-
-**Start API:**
-```bash
-uvicorn app:app
-```
-
-**Start worker node:**
-```bash
-celery -A celery_task_app:worker worker -l info
-```
+Note there are many requirements, so I had to unpin a bunch of these to successfully build.
